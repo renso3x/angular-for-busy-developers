@@ -1,3 +1,7 @@
 <h1>Angular</h1>
+<app-like [likesCount]="tweet.likesCount" [isLiked]="tweet.isLiked"></app-like>
+<favorite [is-favorite]="isFavorite" (change)="onFavoriteChanged($event)"></favorite>
 <courses></courses>
-<authors></authors>
+
+<input type="text" [(ngModel)]="title" name="title" (ngModelChange)="onChange(title)" /> <br />
+{{ title | titleCase }}
