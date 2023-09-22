@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LikeComponent  {
   @Input('likesCount') likes: number = 0
-  @Input('isLiked') isToggle: boolean = false
+  @Input('isToggle') isToggle: boolean = false
 
   constructor() { }
 

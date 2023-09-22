@@ -1,7 +1,16 @@
 <h1>Angular</h1>
-<app-like [likesCount]="tweet.likesCount" [isLiked]="tweet.isLiked"></app-like>
+
+<input type="text" [appInputFile]="'uppercase'"  />
+<app-like [likesCount]="tweet.likesCount" [isToggle]="tweet.isLiked"></app-like>
 <favorite [is-favorite]="isFavorite" (change)="onFavoriteChanged($event)"></favorite>
 <courses></courses>
 
 <input type="text" [(ngModel)]="title" name="title" (ngModelChange)="onChange(title)" /> <br />
 {{ title | titleCase }}
+
+<zippy title="Name">
+    Romeo Enso
+</zippy>
+<zippy title="Shipping Details">
+    Shipping Details Content
+</zippy>
