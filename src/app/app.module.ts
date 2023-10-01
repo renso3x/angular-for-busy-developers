@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +22,11 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
 import { ChangePasswordInputComponent } from './change-password-input/change-password-input.component';
 import { PostsComponent } from './posts/posts.component';
+import { AppErrorHandler } from './services/app.error';
+import { GithubFollowersComponent } from './github-followers/github-followers.component';
+import { API_URL } from './services/data.service';
+import { ServicesService } from './services/services.service';
+import { GithubFollowersService } from './services/github-followers.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +45,8 @@ import { PostsComponent } from './posts/posts.component';
     SignupFormComponent,
     NewCourseFormComponent,
     ChangePasswordInputComponent,
-    PostsComponent
+    PostsComponent,
+    GithubFollowersComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,14 @@ import { PostsComponent } from './posts/posts.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CoursesService, AuthorsService],
+  providers: [
+    CoursesService, 
+    AuthorsService, 
+    {provide: ErrorHandler, useClass: AppErrorHandler},
+    ServicesService,
+    GithubFollowersService,
+    { provide: API_URL, useValue: 'https://api.example.com' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { ServicesService } from '../services/services.service';
+import { AppError, BadInputError, NotFoundError } from '../services/app.error';
 
 @Component({
   selector: 'app-posts',
@@ -14,11 +14,9 @@ export class PostsComponent implements OnInit {
   constructor(private postService: ServicesService) { }
 
   ngOnInit() {
-    this.postService.getPosts()
-      .pipe(
-        map((response: any) => response), // Use your data structure if it's not 'any'
-      )
-      .subscribe((response) => {
+    this.postService.getAll()
+      .subscribe((response:any) => {
+        console.log(response)
         this.posts = response
       })
   }
@@ -34,6 +32,11 @@ export class PostsComponent implements OnInit {
         post['id'] = response.id
         this.posts.splice(0, 0, post)
         console.log(response)
+      }, (error: AppError) => {
+        if (error instanceof BadInputError) {
+          // this.form.setErrors(error.json())
+        } 
+        else throw error;
       })
   }
 
@@ -48,13 +51,19 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post: any) {
-    this.postService.delete(post)
+    this.postService.delete(post.id)
       .pipe(
         map((response: any) => response), // Use your data structure if it's not 'any'
       )
       .subscribe(response => {
         console.log(response)
+        let index = this.posts.indexOf(post)
+        this.posts.splice(index, 1)
+      }, (error: AppError) => {
+        if(error instanceof NotFoundError) {
+          alert('This post has already been deleted')
+        } 
+        else throw error;
       })
   }
-
 }
